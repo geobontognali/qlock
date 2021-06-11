@@ -9,8 +9,12 @@ int but2 = 0;  // set by L2 + R1
 int but3 = 0;  // set by L1 + R2
 int but4 = 0;  // set by L2 + R2
 
+int buttonDown = false;
+
+
 int qds = 0;
 int qs = 0;
+
 
 void setup() {
   // init serial
@@ -28,54 +32,66 @@ void setup() {
 }
 
 void loop() {
+  // Reads button 
   // Fire L1 (Button 1 and 3)
   digitalWrite(butL1, HIGH);
-  // Check Button 1
-  if(digitalRead(butR1) == HIGH)
-  {
-    but1 = 1;
-  }
-  else
-  {
-    but1 = 0;
-  }
-  // Check Button 3
-  if(digitalRead(butR2) == HIGH)
-  {
-    but3 = 1;
-  }
-  else
-  {
-    but3 = 0;
-  }
-  digitalWrite(butL1, LOW);
-  // Fire L2 (Button 2 and 4)
-  digitalWrite(butL2, HIGH);
-  if(digitalRead(butR1) == HIGH)
-  {
-    but2 = 1;
-  }
-  else
-  {
-    but2 = 0;
-  }
-  if(digitalRead(butR2) == HIGH)
-  {
-    but4 = 1;
-  }
-  else
-  {
-    but4 = 0;
-  }
   digitalWrite(butL2, LOW);
   
-  Serial.println(but1);
-  Serial.println(but2);
-  Serial.println(but3);
-  Serial.println(but4);
-  Serial.println("----");
-  Serial.println(qs);
-  Serial.println("----");
+  // Check Button 1
+  if(digitalRead(butR1) == HIGH) 
+  {
+    if(!buttonDown)
+    {
+      qs++;
+      buttonDown = true;
+    }
+  }
+  else 
+  {
+    // Check Button 3
+    if(digitalRead(butR2) == HIGH) 
+    { 
+      if(!buttonDown)
+      {
+        qs = qs + 10;
+        buttonDown = true;
+      }
+    }
+    else 
+    {
+      // Fire L2 (Button 2 and 4)
+      digitalWrite(butL1, LOW);
+      digitalWrite(butL2, HIGH);
+
+      // Check Button 2
+      if(digitalRead(butR1) == HIGH)
+      { 
+        if(!buttonDown)
+        {
+          qs--;
+          buttonDown = true;
+        }
+      }
+      else
+      {
+        // Check Button 4
+        if(digitalRead(butR2) == HIGH && !buttonDown)
+        { 
+          if(!buttonDown)
+          {
+            qs = qs - 10;
+            buttonDown = true;
+          }
+        }
+        else
+        {
+          buttonDown = false;
+        }
+      }
+    }
+  }
+  
+ 
   delay(100);
 
   // Increate thenth of second
@@ -84,5 +100,61 @@ void loop() {
   {
     qds = 0;
     qs++;
+    Serial.println("----");
+    Serial.println(qs);
+    Serial.println("----");
   }
 }
+
+
+/* 
+   // Reads button 
+  // Fire L1 (Button 1 and 3)
+  digitalWrite(butL1, HIGH);
+  // Check Button 1
+  if(digitalRead(butR1) == HIGH) 
+  {
+    if(!but1actioned)
+    {
+      blob++;
+      but1actioned = true;
+    }
+  }
+  else { but1actioned = false; }
+  
+  // Check Button 3
+  if(digitalRead(butR2) == HIGH) 
+  { 
+    if(!but3actioned)
+      {
+        blob++;
+        but3actioned = true;
+      }  
+  }
+  else { but3actioned = false; }
+  digitalWrite(butL1, LOW);
+  
+  // Fire L2 (Button 2 and 4)
+  digitalWrite(butL2, HIGH);
+  // Check Button 2
+  if(digitalRead(butR1) == HIGH)
+  { 
+  if(!but2actioned)
+    {
+      blob++;
+      but2actioned = true;
+    }  
+  }
+  else { but2actioned = false; }
+  // Check Button 4
+  if(digitalRead(butR2) == HIGH)
+  { 
+  if(!but4actioned)
+    {
+      blob++;
+      but4actioned = true;
+    }  
+  }
+  else { but4actioned = false; }
+  digitalWrite(butL2, LOW);
+*/
