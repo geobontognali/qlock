@@ -14,6 +14,9 @@ int qs = 0; // Seconds
 int qm = 0; // Minutes
 int qh = 0; // Hours
 
+int qr = 2999; // Qlock Refresher
+bool showUhr = true; // Qlock bool
+
 // WORD Addresses
 const char ESIST[] = "ES IST ";
 const char VOR[] = "VOR ";
@@ -115,11 +118,35 @@ void loop() {
     }
   }
   // Display the Clock ***********************************************
-  
-  
+  qr++;
+  if(qr == 3000) // Refresh every 5 min
+  {
+    showUhr = true;
+    qr = 0;
+    // Refresh Display
+    if(random(0,2))
+    {
+      Serial.println(ESIST);  
+    }
 
+    
+    if(qm >= 3 && qm < 7)
+    {
+      Serial.println(FUNF);
+      Serial.println(NACH);
+      showUhr = false;
+    }
+    
+    Serial.println(VIER);
+    
+    if(random(0,2) && showUhr)
+    {
+      Serial.println(UHR);
+    } 
+  }
+  
   // Run the clock ***********************************************
-  delay(100);
+  delay(1);
 
   qds++;
   if(qds == 10)
