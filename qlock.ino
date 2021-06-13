@@ -12,10 +12,11 @@ bool buttonDown = false;
 int qds = 0; // Tenth of second
 int qs = 0; // Seconds
 int qm = 0; // Minutes
-int qh = 0; // Hours
+int qh = 12; // Hours
 
 int qr = 2999; // Qlock Refresher
-bool showUhr = true; // Qlock bool
+bool showUhr = false; // Qlock bool
+bool showHalb = false;
 
 // WORD Addresses
 const char ESIST[] = "ES IST ";
@@ -37,7 +38,7 @@ const char NEUN[] = "NEUN ";
 const char ZEHN[] = "ZEHN ";
 const char ELF[] = "ELF ";
 const char ZWOLF[] = "ZWOLF ";
-const char FUNFZEHEN[] = "FUNFZEHEN ";
+const char FUNFZEHN[] = "FUNFZEHN ";
 const char ZWANZIG[] = "ZWANZIG ";
 
 char output[] = "";
@@ -69,7 +70,7 @@ void loop() {
   {
     if(!buttonDown)
     {
-      qs++;
+      qm++;
       buttonDown = true;
     }
   }
@@ -80,7 +81,8 @@ void loop() {
     { 
       if(!buttonDown)
       {
-        qs = qs + 10;
+        qh++;
+        if(qh == 13) { qh = 1; }
         buttonDown = true;
       }
     }
@@ -121,7 +123,9 @@ void loop() {
   qr++;
   if(qr == 3000) // Refresh every 5 min
   {
-    showUhr = true;
+    Serial.println("*****************");
+    showUhr = false;
+    showHalb = false;
     qr = 0;
     // Refresh Display
     if(random(0,2))
@@ -129,20 +133,91 @@ void loop() {
       Serial.println(ESIST);  
     }
 
-    
-    if(qm >= 3 && qm < 7)
+    // Display minutes
+    if(qm >= 57 || qm < 3)
+    {
+      showUhr = true; 
+    }
+    else if(qm >= 3 && qm < 7)
     {
       Serial.println(FUNF);
       Serial.println(NACH);
-      showUhr = false;
     }
-    
-    Serial.println(VIER);
+    else if(qm >= 7 && qm < 13)
+    {
+      Serial.println(ZEHN);
+      Serial.println(NACH);
+    }
+    else if(qm >= 13 && qm < 17)
+    {
+      if(random(0,2)) { Serial.println(VIERTEL); }
+      else { Serial.println(FUNFZEHN); }
+      Serial.println(NACH);
+    }
+    else if(qm >= 17 && qm < 25)
+    {
+      Serial.println(ZWANZIG);
+      Serial.println(NACH);
+    }
+    else if(qm >= 25 && qm < 37)
+    {
+      Serial.println(HALB);
+      showHalb = true;
+      qh++;
+      if(qh == 13) { qh = 1; }
+    }
+    else if(qm >= 37 && qm < 43)
+    {
+      Serial.println(ZWANZIG);
+      Serial.println(VOR);
+    }
+    else if(qm >= 43 && qm < 47)
+    {
+      if(random(0,2)) { Serial.println(VIERTEL); }
+      else { Serial.println(FUNFZEHN); }
+      Serial.println(VOR);
+    }
+    else if(qm >= 47 && qm < 53)
+    {
+      Serial.println(ZEHN);
+      Serial.println(VOR);
+    }
+    else if(qm >= 53 && qm < 57)
+    {
+      Serial.println(FUNF);
+      Serial.println(VOR);
+    }
+
+    // Show hour
+    if(qh == 1) { Serial.println(EINS); }
+    else if(qh == 2) { Serial.println(ZWEI); }
+    else if(qh == 3) { Serial.println(DREI); }
+    else if(qh == 4) { Serial.println(VIER); }
+    else if(qh == 5) { Serial.println(FUNF); }
+    else if(qh == 6) { Serial.println(SECHS); }
+    else if(qh == 7) { Serial.println(SIEBEN); }
+    else if(qh == 8) { Serial.println(ACHT); }
+    else if(qh == 9) { Serial.println(NEUN); }
+    else if(qh == 10) { Serial.println(ZEHN); }
+    else if(qh == 11) { Serial.println(ELF); }
+    else if(qh == 12) { Serial.println(ZWOLF); }
+
+
     
     if(random(0,2) && showUhr)
     {
       Serial.println(UHR);
     } 
+  
+    Serial.println("*****************");
+    Serial.println(qh);
+    Serial.println(qm);
+  
+    if(showHalb) // wegem deutsch und seine sinnlosigkeit
+    {
+      if(qh == 1) { qh = 12; }
+      else { qh--; }
+    }
   }
   
   // Run the clock ***********************************************
@@ -168,4 +243,6 @@ void loop() {
   {
     qh = 1;
   }
+
+  
 }
