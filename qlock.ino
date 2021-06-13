@@ -1,20 +1,43 @@
 
+// PIN Addresses
 const int butL1 = 2;
 const int butL2 = 3;
 const int butR1 = 4;
 const int butR2 = 5;
 
-int but1 = 0;  // set by L1 + R1
-int but2 = 0;  // set by L2 + R1
-int but3 = 0;  // set by L1 + R2
-int but4 = 0;  // set by L2 + R2
+// Register for the button-press-action
+bool buttonDown = false;
 
-int buttonDown = false;
+// Clock
+int qds = 0; // Tenth of second
+int qs = 0; // Seconds
+int qm = 0; // Minutes
+int qh = 0; // Hours
 
+// WORD Addresses
+const char ESIST[] = "ES IST ";
+const char VOR[] = "VOR ";
+const char NACH[] = "NACH ";
+const char HALB[] = "HALB ";
+const char UHR[] = "UHR ";
+const char VIERTEL[] = "VIERTEL ";
 
-int qds = 0;
-int qs = 0;
+const char EINS[] = "EINS ";
+const char ZWEI[] = "ZWEI ";
+const char DREI[] = "DREI ";
+const char VIER[] = "VIER ";
+const char FUNF[] = "FUNF ";
+const char SECHS[] = "SECHS ";
+const char SIEBEN[] = "SIEBEN ";
+const char ACHT[] = "ACHT ";
+const char NEUN[] = "NEUN ";
+const char ZEHN[] = "ZEHN ";
+const char ELF[] = "ELF ";
+const char ZWOLF[] = "ZWOLF ";
+const char FUNFZEHEN[] = "FUNFZEHEN ";
+const char ZWANZIG[] = "ZWANZIG ";
 
+char output[] = "";
 
 void setup() {
   // init serial
@@ -32,7 +55,8 @@ void setup() {
 }
 
 void loop() {
-  // Reads button 
+  
+  // Reads button  ******************************
   // Fire L1 (Button 1 and 3)
   digitalWrite(butL1, HIGH);
   digitalWrite(butL2, LOW);
@@ -75,7 +99,7 @@ void loop() {
       else
       {
         // Check Button 4
-        if(digitalRead(butR2) == HIGH && !buttonDown)
+        if(digitalRead(butR2) == HIGH)
         { 
           if(!buttonDown)
           {
@@ -90,71 +114,31 @@ void loop() {
       }
     }
   }
+  // Display the Clock ***********************************************
   
- 
+  
+
+  // Run the clock ***********************************************
   delay(100);
 
-  // Increate thenth of second
   qds++;
   if(qds == 10)
   {
     qds = 0;
     qs++;
-    Serial.println("----");
-    Serial.println(qs);
-    Serial.println("----");
+  }
+  if(qs == 60)
+  {
+    qs = 0;
+    qm++;
+  }
+  if(qm == 60)
+  {
+    qm = 0;
+    qh++;
+  }
+  if(qh == 13)
+  {
+    qh = 1;
   }
 }
-
-
-/* 
-   // Reads button 
-  // Fire L1 (Button 1 and 3)
-  digitalWrite(butL1, HIGH);
-  // Check Button 1
-  if(digitalRead(butR1) == HIGH) 
-  {
-    if(!but1actioned)
-    {
-      blob++;
-      but1actioned = true;
-    }
-  }
-  else { but1actioned = false; }
-  
-  // Check Button 3
-  if(digitalRead(butR2) == HIGH) 
-  { 
-    if(!but3actioned)
-      {
-        blob++;
-        but3actioned = true;
-      }  
-  }
-  else { but3actioned = false; }
-  digitalWrite(butL1, LOW);
-  
-  // Fire L2 (Button 2 and 4)
-  digitalWrite(butL2, HIGH);
-  // Check Button 2
-  if(digitalRead(butR1) == HIGH)
-  { 
-  if(!but2actioned)
-    {
-      blob++;
-      but2actioned = true;
-    }  
-  }
-  else { but2actioned = false; }
-  // Check Button 4
-  if(digitalRead(butR2) == HIGH)
-  { 
-  if(!but4actioned)
-    {
-      blob++;
-      but4actioned = true;
-    }  
-  }
-  else { but4actioned = false; }
-  digitalWrite(butL2, LOW);
-*/
