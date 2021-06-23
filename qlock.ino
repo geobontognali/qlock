@@ -1,3 +1,9 @@
+// LED Library
+#include <FastLED.h>
+
+#define NUM_LEDS 402
+
+CRGB leds[NUM_LEDS];
 
 // PIN Addresses
 const int butL1 = 2;
@@ -20,6 +26,7 @@ bool showHalb = false;
 
 // WORD Addresses
 const char ESIST[] = "ES IST ";
+
 const char VOR[] = "VOR ";
 const char NACH[] = "NACH ";
 const char HALB[] = "HALB ";
@@ -121,14 +128,19 @@ void loop() {
       }
     }
   }
+
+  
   // Display the Clock ***********************************************
   qr++;
   if(qr == 3000) // Refresh every 5 min
   {
-    Serial.println("*****************");
+    qr = 0;
     showUhr = false;
     showHalb = false;
-    qr = 0;
+    FastLED.clear() // Clear previous setting
+    
+    Serial.println("*****************");
+
     // Refresh Display
     if(random(0,2))
     {
@@ -223,7 +235,7 @@ void loop() {
   }
   
   // Run the clock ***********************************************
-  delay(1);
+  delay(1); // Should be 100 for tenth of second
 
   qds++;
   if(qds == 10)
