@@ -70,7 +70,7 @@ void loop() {
   {
     if(!buttonDown)
     {
-      qm++;
+      qm = qm + 5;
       buttonDown = true;
     }
   }
@@ -97,7 +97,8 @@ void loop() {
       { 
         if(!buttonDown)
         {
-          qs--;
+          qm = qm - 5;
+          if(qm < 0) { qm = 0; }
           buttonDown = true;
         }
       }
@@ -108,7 +109,8 @@ void loop() {
         { 
           if(!buttonDown)
           {
-            qs = qs - 10;
+            qh--;
+            if(qh <= 0) { qh = 12; }
             buttonDown = true;
           }
         }
