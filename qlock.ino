@@ -139,7 +139,7 @@ void loop() {
     else if(qm >= 7 && qm < 13)
     {
       Serial.println("10 ");
-      ZEHN();
+      ZEHN_M();
       Serial.println("nach ");
       NACH();
     }
@@ -151,7 +151,7 @@ void loop() {
     }
     else if(qm >= 17 && qm < 25)
     {
-      Serial.println("zwanzig ");
+      Serial.println("20 ");
       ZWANZIG();
       Serial.println("nach ");
       NACH();
@@ -185,7 +185,7 @@ void loop() {
     }
     else if(qm >= 47 && qm < 53)
     {
-      Serial.println("10 "); ZEHN();
+      Serial.println("10 "); ZEHN_M();
       Serial.println("vor "); VOR();
       showNextHour = true;
       qh++;
@@ -279,7 +279,7 @@ void ESIST()
   leds[21] = CRGB::White; FastLED.show();
 }
 
-void FUNF_M()
+void FUNF_M() // _M for minutes
 {
   leds[28] = CRGB::White; FastLED.show();
   leds[29] = CRGB::White; FastLED.show();
@@ -363,7 +363,7 @@ void ZWANZIG()
   leds[69] = CRGB::White; FastLED.show();
 }
 
-void ZEHN()
+void ZEHN_M() // for minutes
 {
   leds[71] = CRGB::White; FastLED.show();
   leds[72] = CRGB::White; FastLED.show();
@@ -384,22 +384,17 @@ void ZEHN()
 
 void DREI()
 {
-  leds[88] = CRGB::White; FastLED.show();
-  leds[89] = CRGB::White; FastLED.show();
-  leds[90] = CRGB::White; FastLED.show();
+  leds[269] = CRGB::White; FastLED.show();
+  leds[270] = CRGB::White; FastLED.show();
 
-  leds[92] = CRGB::White; FastLED.show();
-  leds[93] = CRGB::White; FastLED.show();
-  leds[94] = CRGB::White; FastLED.show();
-
-
-  leds[96] = CRGB::White; FastLED.show();
-  leds[97] = CRGB::White; FastLED.show();
-  leds[98] = CRGB::White; FastLED.show();
+  leds[273] = CRGB::White; FastLED.show();
+  leds[274] = CRGB::White; FastLED.show();
   
-  leds[100] = CRGB::White; FastLED.show();
-  leds[101] = CRGB::White; FastLED.show();
-  leds[102] = CRGB::White; FastLED.show();
+  leds[277] = CRGB::White; FastLED.show();
+  leds[278] = CRGB::White; FastLED.show();
+
+  leds[281] = CRGB::White; FastLED.show();
+  leds[282] = CRGB::White; FastLED.show();
 }
 
 void VIERTEL()
@@ -657,4 +652,19 @@ void VIER()
 
   leds[309] = CRGB::White; FastLED.show();
   leds[310] = CRGB::White; FastLED.show();
+}
+
+void ZEHN()
+{
+  leds[444] = CRGB::White; FastLED.show();
+  leds[443] = CRGB::White; FastLED.show();
+
+  leds[440] = CRGB::White; FastLED.show();
+  leds[439] = CRGB::White; FastLED.show();
+  
+  leds[436] = CRGB::White; FastLED.show();
+  leds[435] = CRGB::White; FastLED.show();
+
+  leds[432] = CRGB::White; FastLED.show();
+  leds[431] = CRGB::White; FastLED.show();
 }

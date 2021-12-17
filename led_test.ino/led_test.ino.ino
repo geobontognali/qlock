@@ -1,6 +1,6 @@
 #include <FastLED.h>
 
-#define NUM_LEDS 440
+#define NUM_LEDS 445
 
 CRGB leds[NUM_LEDS];
 void setup() {
@@ -17,16 +17,15 @@ void loop() {
 
 void WORD()
 {
-  leds[297] = CRGB::White; FastLED.show();
-  leds[298] = CRGB::White; FastLED.show();
+  leds[444] = CRGB::White; FastLED.show();
+  leds[443] = CRGB::White; FastLED.show();
 
-  leds[301] = CRGB::White; FastLED.show();
-  leds[302] = CRGB::White; FastLED.show();
+  leds[440] = CRGB::White; FastLED.show();
+  leds[439] = CRGB::White; FastLED.show();
   
-  leds[305] = CRGB::White; FastLED.show();
-  leds[306] = CRGB::White; FastLED.show();
+  leds[436] = CRGB::White; FastLED.show();
+  leds[435] = CRGB::White; FastLED.show();
 
-  leds[309] = CRGB::White; FastLED.show();
-  leds[310] = CRGB::White; FastLED.show();
-
+  leds[432] = CRGB::White; FastLED.show();
+  leds[431] = CRGB::White; FastLED.show();
 }
