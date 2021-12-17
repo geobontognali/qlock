@@ -1,6 +1,6 @@
 #include <FastLED.h>
 
-#define NUM_LEDS 445
+#define NUM_LEDS 440
 
 CRGB leds[NUM_LEDS];
 
@@ -24,6 +24,9 @@ bool showUhr = false; // Qlock bool
 bool showNextHour = false;
 
 void setup() {
+  // init serial
+  Serial.begin(9600);
+
   // init LEDs
   FastLED.addLeds<NEOPIXEL, 6>(leds, NUM_LEDS);
     
@@ -103,12 +106,6 @@ void loop() {
     }
   }
 
-  if(buttonDown) 
-  { 
-    delay(1000);  
-    qr = 2999;
-    return;
-  }
   
   // Display the Clock ***********************************************
   qr++;
@@ -119,9 +116,11 @@ void loop() {
     showNextHour = false; // Flag used to show the next hour after "halb" (halb 4, zwanzig vor 4, usw)
     FastLED.clear(); // Clear previous setting
     
+
     // Random show es-ist
     if(random(0,2))
     {
+      Serial.println("es ist ");
       ESIST();  
     }
 
@@ -132,27 +131,34 @@ void loop() {
     }
     else if(qm >= 3 && qm < 7)
     {
+      Serial.println("5 ");
       FUNF_M();
+      Serial.println("nach ");
       NACH();
     }
     else if(qm >= 7 && qm < 13)
     {
+      Serial.println("10 ");
       ZEHN_M();
+      Serial.println("nach ");
       NACH();
     }
     else if(qm >= 13 && qm < 17)
     {
-      if(random(0,2)) { VIERTEL(); }
-      else { FUNFZEHN(); }
-      NACH();
+      if(random(0,2)) { Serial.println("viertel "); VIERTEL(); }
+      else { Serial.println("15 "); FUNFZEHN(); }
+      Serial.println("nach "); NACH();
     }
     else if(qm >= 17 && qm < 25)
     {
+      Serial.println("20 ");
       ZWANZIG();
+      Serial.println("nach ");
       NACH();
     }
     else if(qm >= 25 && qm < 37)
     {
+      Serial.println("halb ");
       HALB();
       showNextHour = true;
       qh++;
@@ -160,7 +166,9 @@ void loop() {
     }
     else if(qm >= 37 && qm < 43)
     {
+      Serial.println("20 ");
       ZWANZIG();
+      Serial.println("vor ");
       VOR();
       showNextHour = true;
       qh++;
@@ -168,50 +176,54 @@ void loop() {
     }
     else if(qm >= 43 && qm < 47)
     {
-      if(random(0,2)) { VIERTEL(); }
-      else { FUNFZEHN(); } 
-      VOR();
+      if(random(0,2)) { Serial.println("viertel "); VIERTEL(); }
+      else { Serial.println("15 "); FUNFZEHN(); }
+      Serial.println("vor "); VOR();
       showNextHour = true;
       qh++;
       if(qh == 13) { qh = 1; }
     }
     else if(qm >= 47 && qm < 53)
     {
-      ZEHN_M();
-      VOR();
+      Serial.println("10 "); ZEHN_M();
+      Serial.println("vor "); VOR();
       showNextHour = true;
       qh++;
       if(qh == 13) { qh = 1; }
     }
     else if(qm >= 53 && qm < 57)
     {
-      FUNF_M();
-      VOR();
+      Serial.println("5 "); FUNF_M();
+      Serial.println("vor "); VOR();
       showNextHour = true;
       qh++;
       if(qh == 13) { qh = 1; }
     }
 
     // Show hour
-    if(qh == 1) { EINS(); }
-    else if(qh == 2) { ZWEI(); }
-    else if(qh == 3) { DREI(); }
-    else if(qh == 4) { VIER(); }
-    else if(qh == 5) { FUNF(); }
-    else if(qh == 6) { SECHS(); }
-    else if(qh == 7) { SIEBEN(); }
-    else if(qh == 8) { ACHT(); }
-    else if(qh == 9) { NEUN(); }
-    else if(qh == 10) { ZEHN(); }
-    else if(qh == 11) { ELF(); }
-    else if(qh == 12) { ZWOLF(); }
+    if(qh == 1) { Serial.println("1 "); EINS(); }
+    else if(qh == 2) { Serial.println("2 "); ZWEI(); }
+    else if(qh == 3) { Serial.println("3 "); DREI(); }
+    else if(qh == 4) { Serial.println("4 "); VIER(); }
+    else if(qh == 5) { Serial.println("5 "); FUNF(); }
+    else if(qh == 6) { Serial.println("6 "); SECHS(); }
+    else if(qh == 7) { Serial.println("7 "); SIEBEN(); }
+    else if(qh == 8) { Serial.println("8 "); ACHT(); }
+    else if(qh == 9) { Serial.println("9 "); NEUN(); }
+    else if(qh == 10) { Serial.println("10 "); ZEHN(); }
+    else if(qh == 11) { Serial.println("11 "); ELF(); }
+    else if(qh == 12) { Serial.println("12 "); ZWOLF(); }
 
 
     
     if(showUhr)
     {
-      UHR();
+      Serial.println("uhr"); UHR();
     } 
+  
+    Serial.println("*****************");
+    Serial.println(qh);
+    Serial.println(qm);
   
     if(showNextHour) // Return the qlock one hour back
     {
@@ -221,7 +233,7 @@ void loop() {
   }
   
   // Run the clock ***********************************************
-  delay(100); // Should be 100 for tenth of second, do a little less to correct the cpu delay
+  delay(1); // Should be 100 for tenth of second
 
   qds++;
   if(qds == 10)
@@ -644,15 +656,15 @@ void VIER()
 
 void ZEHN()
 {
-  leds[444] = CRGB::White; FastLED.show();
-  leds[443] = CRGB::White; FastLED.show();
-
-  leds[440] = CRGB::White; FastLED.show();
   leds[439] = CRGB::White; FastLED.show();
-  
-  leds[436] = CRGB::White; FastLED.show();
-  leds[435] = CRGB::White; FastLED.show();
+  leds[298] = CRGB::White; FastLED.show();
 
-  leds[432] = CRGB::White; FastLED.show();
-  leds[431] = CRGB::White; FastLED.show();
+  leds[301] = CRGB::White; FastLED.show();
+  leds[302] = CRGB::White; FastLED.show();
+  
+  leds[305] = CRGB::White; FastLED.show();
+  leds[306] = CRGB::White; FastLED.show();
+
+  leds[309] = CRGB::White; FastLED.show();
+  leds[310] = CRGB::White; FastLED.show();
 }
