@@ -1,249 +1,190 @@
 #include <FastLED.h>
-
+#include "Wire.h"
+#define DS1307_I2C_ADDRESS 0x68  // This is the I2C address
+// Arduino version compatibility Pre-Compiler Directives
+#if defined(ARDUINO) && ARDUINO >= 100   // Arduino v1.0 and newer
+  #define I2C_WRITE Wire.write 
+  #define I2C_READ Wire.read
+#else                                   // Arduino Prior to v1.0 
+  #define I2C_WRITE Wire.send 
+  #define I2C_READ Wire.receive
+#endif
 #define NUM_LEDS 445
 
 CRGB leds[NUM_LEDS];
 
-// PIN Addresses
-const int butL1 = 2;
-const int butL2 = 3;
-const int butR1 = 4;
-const int butR2 = 5;
-
-// Register for the button-press-action
-bool buttonDown = false;
+// Global Variables
+int command = 0;       // This is the command char, in ascii form, sent from the serial port     
+int i;
+long previousMillis = 0;        // will store last time Temp was updated
+byte second, minute, hour, dayOfWeek, dayOfMonth, month, year;
+byte test;
+byte zero;
+char  *Day[] = {"","Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
+char  *Mon[] = {"","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
 
 // Clock
-int qds = 0; // Tenth of second
 int qs = 0; // Seconds
 int qm = 0; // Minutes
 int qh = 12; // Hours
 
-int qr = 2999; // Qlock Refresher
 bool showUhr = false; // Qlock bool
 bool showNextHour = false;
+
+// Convert normal decimal numbers to binary coded decimal
+byte decToBcd(byte val)
+{
+  return ( (val/10*16) + (val%10) );
+}
+ 
+// Convert binary coded decimal to normal decimal numbers
+byte bcdToDec(byte val)
+{
+  return ( (val/16*10) + (val%16) );
+}
+
+// Gets the date and time from the ds1307 and prints result
+void getDateDs1307()
+{
+  // Reset the register pointer
+  Wire.beginTransmission(DS1307_I2C_ADDRESS);
+  I2C_WRITE(zero);
+  Wire.endTransmission();
+  Wire.requestFrom(DS1307_I2C_ADDRESS, 7);
+ 
+  // A few of these need masks because certain bits are control bits
+  second     = bcdToDec(I2C_READ() & 0x7f);
+  minute     = bcdToDec(I2C_READ());
+  hour       = bcdToDec(I2C_READ() & 0x3f);  // Need to change this if 12 hour am/pm
+  dayOfWeek  = bcdToDec(I2C_READ());
+  dayOfMonth = bcdToDec(I2C_READ());
+  month      = bcdToDec(I2C_READ());
+  year       = bcdToDec(I2C_READ()); 
+}
+ 
 
 void setup() {
   // init LEDs
   FastLED.addLeds<NEOPIXEL, 6>(leds, NUM_LEDS);
-    
+  Wire.begin();
+  //Serial.begin(57600); 
+  zero=0x00;
   // init pins
-  pinMode(butL1, OUTPUT);
-  pinMode(butL2, OUTPUT);
-  pinMode(butR1, INPUT);
-  pinMode(butR2, INPUT);
-
-  digitalWrite(butL1, LOW);
-  digitalWrite(butL2, LOW);
-
-  delay(6000);
+  delay(5000);
 }
 
 void loop() {
-
-  // Reads button  ******************************
-  // Fire L1 (Button 1 and 3)
-  digitalWrite(butL1, HIGH);
-  digitalWrite(butL2, LOW);
-  
-  // Check Button 1
-  if(digitalRead(butR1) == HIGH) 
-  {
-    if(!buttonDown)
-    {
-      qm = qm + 5;
-      buttonDown = true;
-    }
-  }
-  else 
-  {
-    // Check Button 3
-    if(digitalRead(butR2) == HIGH) 
-    { 
-      if(!buttonDown)
-      {
-        qh++;
-        if(qh == 13) { qh = 1; }
-        buttonDown = true;
-      }
-    }
-    else 
-    {
-      // Fire L2 (Button 2 and 4)
-      digitalWrite(butL1, LOW);
-      digitalWrite(butL2, HIGH);
-
-      // Check Button 2
-      if(digitalRead(butR1) == HIGH)
-      { 
-        if(!buttonDown)
-        {
-          qm = qm - 5;
-          if(qm < 0) { qm = 0; }
-          buttonDown = true;
-        }
-      }
-      else
-      {
-        // Check Button 4
-        if(digitalRead(butR2) == HIGH)
-        { 
-          if(!buttonDown)
-          {
-            qh--;
-            if(qh <= 0) { qh = 12; }
-            buttonDown = true;
-          }
-        }
-        else
-        {
-          buttonDown = false;
-        }
-      }
-    }
-  }
-
-  if(buttonDown) 
-  { 
-    delay(1000);  
-    qr = 2999;
-    return;
-  }
-  
   // Display the Clock ***********************************************
-  qr++;
-  if(qr == 3000) // Refresh every 5 min
+  // Get time vars and convert them to mine
+  getDateDs1307(); 
+  qs = second; // Seconds
+  qm = minute; // Minutes
+  qh = hour;
+  if(hour > 12)
   {
-    qr = 0;
-    showUhr = false; // Used to define if "Uhr" has to be shown
-    showNextHour = false; // Flag used to show the next hour after "halb" (halb 4, zwanzig vor 4, usw)
-    FastLED.clear(); // Clear previous setting
-    
-    // Random show es-ist
-    if(random(0,2))
-    {
-      ESIST();  
-    }
-
-    // If the hour is full, show "Uhr"
-    if(qm >= 57 || qm < 3)
-    {
-      showUhr = true; 
-    }
-    else if(qm >= 3 && qm < 7)
-    {
-      FUNF_M();
-      NACH();
-    }
-    else if(qm >= 7 && qm < 13)
-    {
-      ZEHN_M();
-      NACH();
-    }
-    else if(qm >= 13 && qm < 17)
-    {
-      if(random(0,2)) { VIERTEL(); }
-      else { FUNFZEHN(); }
-      NACH();
-    }
-    else if(qm >= 17 && qm < 25)
-    {
-      ZWANZIG();
-      NACH();
-    }
-    else if(qm >= 25 && qm < 37)
-    {
-      HALB();
-      showNextHour = true;
-      qh++;
-      if(qh == 13) { qh = 1; }
-    }
-    else if(qm >= 37 && qm < 43)
-    {
-      ZWANZIG();
-      VOR();
-      showNextHour = true;
-      qh++;
-      if(qh == 13) { qh = 1; }
-    }
-    else if(qm >= 43 && qm < 47)
-    {
-      if(random(0,2)) { VIERTEL(); }
-      else { FUNFZEHN(); } 
-      VOR();
-      showNextHour = true;
-      qh++;
-      if(qh == 13) { qh = 1; }
-    }
-    else if(qm >= 47 && qm < 53)
-    {
-      ZEHN_M();
-      VOR();
-      showNextHour = true;
-      qh++;
-      if(qh == 13) { qh = 1; }
-    }
-    else if(qm >= 53 && qm < 57)
-    {
-      FUNF_M();
-      VOR();
-      showNextHour = true;
-      qh++;
-      if(qh == 13) { qh = 1; }
-    }
-
-    // Show hour
-    if(qh == 1) { EINS(); }
-    else if(qh == 2) { ZWEI(); }
-    else if(qh == 3) { DREI(); }
-    else if(qh == 4) { VIER(); }
-    else if(qh == 5) { FUNF(); }
-    else if(qh == 6) { SECHS(); }
-    else if(qh == 7) { SIEBEN(); }
-    else if(qh == 8) { ACHT(); }
-    else if(qh == 9) { NEUN(); }
-    else if(qh == 10) { ZEHN(); }
-    else if(qh == 11) { ELF(); }
-    else if(qh == 12) { ZWOLF(); }
+    qh = (hour - 12);
+  }
+  else
+  {
+    qh = hour; // Hours
+  }
+  //Serial.println(qs, DEC);
+  //Serial.println(qm, DEC);
+  //Serial.println(qh, DEC);
 
 
-    
-    if(showUhr)
-    {
-      UHR();
-    } 
+
+  showUhr = false; // Used to define if "Uhr" has to be shown
+  FastLED.clear(); // Clear previous setting
   
-    if(showNextHour) // Return the qlock one hour back
-    {
-      if(qh == 1) { qh = 12; }
-      else { qh--; }
-    }
+  // Random show es-ist
+  if(random(0,2))
+  {
+    ESIST();  
   }
-  
-  // Run the clock ***********************************************
-  delay(100); // Should be 100 for tenth of second, do a little less to correct the cpu delay
 
-  qds++;
-  if(qds == 10)
+  // If the hour is full, show "Uhr"
+  if(qm >= 57 || qm < 3)
   {
-    qds = 0;
-    qs++;
+    showUhr = true; 
   }
-  if(qs == 60)
+  else if(qm >= 3 && qm < 7)
   {
-    qs = 0;
-    qm++;
+    FUNF_M();
+    NACH();
   }
-  if(qm == 60)
+  else if(qm >= 7 && qm < 13)
   {
-    qm = 0;
+    ZEHN_M();
+    NACH();
+  }
+  else if(qm >= 13 && qm < 17)
+  {
+    if(random(0,2)) { VIERTEL(); }
+    else { FUNFZEHN(); }
+    NACH();
+  }
+  else if(qm >= 17 && qm < 25)
+  {
+    ZWANZIG();
+    NACH();
+  }
+  else if(qm >= 25 && qm < 37)
+  {
+    HALB();
     qh++;
+    if(qh == 13) { qh = 1; }
   }
-  if(qh == 13)
+  else if(qm >= 37 && qm < 43)
   {
-    qh = 1;
+    ZWANZIG();
+    VOR();
+    qh++;
+    if(qh == 13) { qh = 1; }
+  }
+  else if(qm >= 43 && qm < 47)
+  {
+    if(random(0,2)) { VIERTEL(); }
+    else { FUNFZEHN(); } 
+    VOR();
+    qh++;
+    if(qh == 13) { qh = 1; }
+  }
+  else if(qm >= 47 && qm < 53)
+  {
+    ZEHN_M();
+    VOR();
+    qh++;
+    if(qh == 13) { qh = 1; }
+  }
+  else if(qm >= 53 && qm < 57)
+  {
+    FUNF_M();
+    VOR();
+    qh++;
+    if(qh == 13) { qh = 1; }
   }
 
+  // Show hour
+  if(qh == 1) { EINS(); }
+  else if(qh == 2) { ZWEI(); }
+  else if(qh == 3) { DREI(); }
+  else if(qh == 4) { VIER(); }
+  else if(qh == 5) { FUNF(); }
+  else if(qh == 6) { SECHS(); }
+  else if(qh == 7) { SIEBEN(); }
+  else if(qh == 8) { ACHT(); }
+  else if(qh == 9) { NEUN(); }
+  else if(qh == 10) { ZEHN(); }
+  else if(qh == 11) { ELF(); }
+  else if(qh == 12) { ZWOLF(); }
+
+  if(showUhr)
+  {
+    UHR();
+  } 
+  
+  delay(300000); // 5 min
 }
 
 // WORDS
