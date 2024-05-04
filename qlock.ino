@@ -9,7 +9,7 @@
   #define I2C_WRITE Wire.send 
   #define I2C_READ Wire.receive
 #endif
-#define NUM_LEDS 445
+#define NUM_LEDS 449
 
 CRGB leds[NUM_LEDS];
 
@@ -239,11 +239,11 @@ void FUNFZEHN()
   leds[37] = CRGB::White; FastLED.show();
   leds[38] = CRGB::White; FastLED.show();
 
-  leds[40] = CRGB::White; FastLED.show();
   leds[41] = CRGB::White; FastLED.show();
   leds[42] = CRGB::White; FastLED.show();
+  leds[43] = CRGB::White; FastLED.show();
 
-    leds[71] = CRGB::White; FastLED.show();
+  leds[71] = CRGB::White; FastLED.show();
   leds[72] = CRGB::White; FastLED.show();
   leds[73] = CRGB::White; FastLED.show();
 
@@ -328,8 +328,6 @@ void DREI()
 
 void VIERTEL()
 {
-  leds[104] = CRGB::White; FastLED.show();
-  leds[105] = CRGB::White; FastLED.show();
   leds[106] = CRGB::White; FastLED.show();
 
   leds[108] = CRGB::White; FastLED.show();
@@ -355,6 +353,9 @@ void VIERTEL()
   leds[128] = CRGB::White; FastLED.show();
   leds[129] = CRGB::White; FastLED.show();
   leds[130] = CRGB::White; FastLED.show();
+
+  leds[131] = CRGB::White; FastLED.show();
+  leds[132] = CRGB::White; FastLED.show();
 }
 
 
@@ -378,23 +379,24 @@ void NACH()
 
 void VOR()
 {
-  leds[165] = CRGB::White; FastLED.show();
-  leds[166] = CRGB::White; FastLED.show();
-  leds[167] = CRGB::White; FastLED.show();
-  
+  leds[168] = CRGB::White; FastLED.show();
+  leds[169] = CRGB::White; FastLED.show();
   leds[170] = CRGB::White; FastLED.show();
-  leds[171] = CRGB::White; FastLED.show();
 
+  leds[172] = CRGB::White; FastLED.show();
   leds[173] = CRGB::White; FastLED.show();
   leds[174] = CRGB::White; FastLED.show();
+
   leds[175] = CRGB::White; FastLED.show();
+  leds[176] = CRGB::White; FastLED.show();
+  leds[177] = CRGB::White; FastLED.show();
 }
 
 void HALB()
 {
-  leds[178] = CRGB::White; FastLED.show();
   leds[179] = CRGB::White; FastLED.show();
   leds[180] = CRGB::White; FastLED.show();
+  leds[181] = CRGB::White; FastLED.show();
   
   leds[182] = CRGB::White; FastLED.show();
   leds[183] = CRGB::White; FastLED.show();
@@ -404,48 +406,50 @@ void HALB()
   leds[187] = CRGB::White; FastLED.show();
   leds[188] = CRGB::White; FastLED.show();
 
-  leds[190] = CRGB::White; FastLED.show();
   leds[191] = CRGB::White; FastLED.show();
   leds[192] = CRGB::White; FastLED.show();
+  leds[193] = CRGB::White; FastLED.show();
 }
 
 void FUNF()
 {
-  leds[206] = CRGB::White; FastLED.show();
-  leds[207] = CRGB::White; FastLED.show();
-  leds[208] = CRGB::White; FastLED.show();
-  
   leds[210] = CRGB::White; FastLED.show();
   leds[211] = CRGB::White; FastLED.show();
   leds[212] = CRGB::White; FastLED.show();
-  
+
+  leds[213] = CRGB::White; FastLED.show();
   leds[214] = CRGB::White; FastLED.show();
+
   leds[215] = CRGB::White; FastLED.show();
   leds[216] = CRGB::White; FastLED.show();
 
-  leds[219] = CRGB::White; FastLED.show();
+  leds[217] = CRGB::White; FastLED.show();
+  leds[218] = CRGB::White; FastLED.show();
+
   leds[220] = CRGB::White; FastLED.show();
+  leds[221] = CRGB::White; FastLED.show();
+  leds[222] = CRGB::White; FastLED.show();
 }
 
 void EINS()
 {
-  leds[251] = CRGB::White; FastLED.show();
-  leds[252] = CRGB::White; FastLED.show();
+  leds[253] = CRGB::White; FastLED.show();
+  leds[254] = CRGB::White; FastLED.show();
 
-  leds[255] = CRGB::White; FastLED.show();
   leds[256] = CRGB::White; FastLED.show();
+  leds[257] = CRGB::White; FastLED.show();
 
-  leds[259] = CRGB::White; FastLED.show();
   leds[260] = CRGB::White; FastLED.show();
+  leds[261] = CRGB::White; FastLED.show();
 
-  leds[263] = CRGB::White; FastLED.show();
   leds[264] = CRGB::White; FastLED.show();
+  leds[265] = CRGB::White; FastLED.show();
 }
 
 void SECHS()
 {
-  leds[337] = CRGB::White; FastLED.show();
-  leds[338] = CRGB::White; FastLED.show();
+  leds[339] = CRGB::White; FastLED.show();
+  leds[340] = CRGB::White; FastLED.show();
 
   leds[341] = CRGB::White; FastLED.show();
   leds[342] = CRGB::White; FastLED.show();
@@ -456,144 +460,180 @@ void SECHS()
   leds[349] = CRGB::White; FastLED.show();
   leds[350] = CRGB::White; FastLED.show();
 
-  leds[353] = CRGB::White; FastLED.show();
   leds[354] = CRGB::White; FastLED.show();
+  leds[355] = CRGB::White; FastLED.show();
 }
 
 void UHR()
 {
-  leds[402] = CRGB::White; FastLED.show();
-  leds[403] = CRGB::White; FastLED.show();
-
+  leds[405] = CRGB::White; FastLED.show();
   leds[406] = CRGB::White; FastLED.show();
-  leds[407] = CRGB::White; FastLED.show();
 
-  leds[410] = CRGB::White; FastLED.show();
+  leds[408] = CRGB::White; FastLED.show();
+  leds[409] = CRGB::White; FastLED.show();
+
   leds[411] = CRGB::White; FastLED.show();
+  leds[412] = CRGB::White; FastLED.show();
+  leds[413] = CRGB::White; FastLED.show();
 }
 
 void ZWEI()
 {
-  leds[223] = CRGB::White; FastLED.show();
-  leds[224] = CRGB::White; FastLED.show();
+  leds[225] = CRGB::White; FastLED.show();
+  leds[226] = CRGB::White; FastLED.show();
 
-  leds[227] = CRGB::White; FastLED.show();
   leds[228] = CRGB::White; FastLED.show();
+  leds[229] = CRGB::White; FastLED.show();
 
   leds[231] = CRGB::White; FastLED.show();
   leds[232] = CRGB::White; FastLED.show();
+  leds[233] = CRGB::White; FastLED.show();
 
   leds[235] = CRGB::White; FastLED.show();
   leds[236] = CRGB::White; FastLED.show();
+  leds[237] = CRGB::White; FastLED.show();
 }
 
 void SIEBEN()
 {
-  leds[359] = CRGB::White; FastLED.show();
   leds[360] = CRGB::White; FastLED.show();
+  leds[361] = CRGB::White; FastLED.show();
+  leds[362] = CRGB::White; FastLED.show();
 
   leds[363] = CRGB::White; FastLED.show();
   leds[364] = CRGB::White; FastLED.show();
+  leds[365] = CRGB::White; FastLED.show();
 
   leds[367] = CRGB::White; FastLED.show();
   leds[368] = CRGB::White; FastLED.show();
+  leds[369] = CRGB::White; FastLED.show();
 
   leds[371] = CRGB::White; FastLED.show();
   leds[372] = CRGB::White; FastLED.show();
+  leds[373] = CRGB::White; FastLED.show();
 
   leds[375] = CRGB::White; FastLED.show();
   leds[376] = CRGB::White; FastLED.show();
+  leds[377] = CRGB::White; FastLED.show();
 
-  leds[379] = CRGB::White; FastLED.show();
   leds[380] = CRGB::White; FastLED.show();
+  leds[381] = CRGB::White; FastLED.show();
+  leds[382] = CRGB::White; FastLED.show();
 }
 
 void ACHT()
 {
-    leds[313] = CRGB::White; FastLED.show();
   leds[314] = CRGB::White; FastLED.show();
+  leds[315] = CRGB::White; FastLED.show();
 
   leds[317] = CRGB::White; FastLED.show();
   leds[318] = CRGB::White; FastLED.show();
 
+  leds[320] = CRGB::White; FastLED.show();
   leds[321] = CRGB::White; FastLED.show();
   leds[322] = CRGB::White; FastLED.show();
+  leds[323] = CRGB::White; FastLED.show();
 
   leds[325] = CRGB::White; FastLED.show();
   leds[326] = CRGB::White; FastLED.show();
+  leds[327] = CRGB::White; FastLED.show();
 }
 
 void NEUN()
 {
-  leds[419] = CRGB::White; FastLED.show();
   leds[420] = CRGB::White; FastLED.show();
+  leds[421] = CRGB::White; FastLED.show();
+  leds[422] = CRGB::White; FastLED.show();
 
-  leds[423] = CRGB::White; FastLED.show();
   leds[424] = CRGB::White; FastLED.show();
+  leds[425] = CRGB::White; FastLED.show();
+  leds[426] = CRGB::White; FastLED.show();
 
   leds[427] = CRGB::White; FastLED.show();
   leds[428] = CRGB::White; FastLED.show();
+  leds[429] = CRGB::White; FastLED.show();
 
-  leds[431] = CRGB::White; FastLED.show();
   leds[432] = CRGB::White; FastLED.show();
+  leds[433] = CRGB::White; FastLED.show();
+  leds[434] = CRGB::White; FastLED.show();
 }
 
 void ELF()
 {
-  leds[199] = CRGB::White; FastLED.show();
-  leds[200] = CRGB::White; FastLED.show();
-
+  leds[201] = CRGB::White; FastLED.show();
+  leds[202] = CRGB::White; FastLED.show();
   leds[203] = CRGB::White; FastLED.show();
-  leds[204] = CRGB::White; FastLED.show();
 
+  leds[205] = CRGB::White; FastLED.show();
+  leds[206] = CRGB::White; FastLED.show();
   leds[207] = CRGB::White; FastLED.show();
+
   leds[208] = CRGB::White; FastLED.show();
+  leds[209] = CRGB::White; FastLED.show();
+  leds[210] = CRGB::White; FastLED.show();
 }
 
 void ZWOLF()
 {
-  leds[383] = CRGB::White; FastLED.show();
-  leds[384] = CRGB::White; FastLED.show();
-
+  leds[385] = CRGB::White; FastLED.show();
+  leds[386] = CRGB::White; FastLED.show();
   leds[387] = CRGB::White; FastLED.show();
-  leds[388] = CRGB::White; FastLED.show();
-  
+
+  leds[390] = CRGB::White; FastLED.show();
   leds[391] = CRGB::White; FastLED.show();
   leds[392] = CRGB::White; FastLED.show();
-
+  
+  leds[394] = CRGB::White; FastLED.show();
   leds[395] = CRGB::White; FastLED.show();
   leds[396] = CRGB::White; FastLED.show();
 
+  leds[397] = CRGB::White; FastLED.show();
+  leds[398] = CRGB::White; FastLED.show();
   leds[399] = CRGB::White; FastLED.show();
-  leds[400] = CRGB::White; FastLED.show();
+
+  leds[401] = CRGB::White; FastLED.show();
+  leds[402] = CRGB::White; FastLED.show();
+  leds[403] = CRGB::White; FastLED.show();
 }
 
 void VIER()
 {
-  leds[297] = CRGB::White; FastLED.show();
-  leds[298] = CRGB::White; FastLED.show();
-
+  leds[299] = CRGB::White; FastLED.show();
+  leds[300] = CRGB::White; FastLED.show();
   leds[301] = CRGB::White; FastLED.show();
-  leds[302] = CRGB::White; FastLED.show();
-  
-  leds[305] = CRGB::White; FastLED.show();
-  leds[306] = CRGB::White; FastLED.show();
 
+  leds[303] = CRGB::White; FastLED.show();
+  leds[304] = CRGB::White; FastLED.show();
+  leds[305] = CRGB::White; FastLED.show();
+  
+  leds[307] = CRGB::White; FastLED.show();
+  leds[308] = CRGB::White; FastLED.show();
   leds[309] = CRGB::White; FastLED.show();
-  leds[310] = CRGB::White; FastLED.show();
+
+  leds[311] = CRGB::White; FastLED.show();
+  leds[312] = CRGB::White; FastLED.show();
+  leds[313] = CRGB::White; FastLED.show();
 }
 
 void ZEHN()
 {
-  leds[444] = CRGB::White; FastLED.show();
-  leds[443] = CRGB::White; FastLED.show();
+  leds[432] = CRGB::White; FastLED.show();
+  leds[433] = CRGB::White; FastLED.show();
+  leds[434] = CRGB::White; FastLED.show();
+
+  leds[436] = CRGB::White; FastLED.show();
+  leds[437] = CRGB::White; FastLED.show();
+  leds[438] = CRGB::White; FastLED.show();
 
   leds[440] = CRGB::White; FastLED.show();
-  leds[439] = CRGB::White; FastLED.show();
-  
-  leds[436] = CRGB::White; FastLED.show();
-  leds[435] = CRGB::White; FastLED.show();
+  leds[441] = CRGB::White; FastLED.show();
+  leds[442] = CRGB::White; FastLED.show();
 
-  leds[432] = CRGB::White; FastLED.show();
-  leds[431] = CRGB::White; FastLED.show();
+  leds[444] = CRGB::White; FastLED.show();
+  leds[445] = CRGB::White; FastLED.show();
+  leds[446] = CRGB::White; FastLED.show();
+
+  leds[447] = CRGB::White; FastLED.show();
+  leds[448] = CRGB::White; FastLED.show();
+  leds[449] = CRGB::White; FastLED.show();
 }
