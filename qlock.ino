@@ -104,9 +104,14 @@ void loop() {
   }
 
   // If the hour is full, show "Uhr"
-  if(qm >= 57 || qm < 3)
+  if(qm < 3)
   {
     showUhr = true; 
+  }
+  else if(qm >= 57 && qm < 60)
+  {
+    showUhr = true;
+    qh++;
   }
   else if(qm >= 3 && qm < 7)
   {
@@ -262,9 +267,9 @@ void FUNFZEHN()
 
 void ZWANZIG()
 {
-  leds[43] = CRGB::White; FastLED.show();
   leds[44] = CRGB::White; FastLED.show();
   leds[45] = CRGB::White; FastLED.show();
+  leds[46] = CRGB::White; FastLED.show();
 
   leds[47] = CRGB::White; FastLED.show();
   leds[48] = CRGB::White; FastLED.show();
@@ -282,29 +287,29 @@ void ZWANZIG()
   leds[60] = CRGB::White; FastLED.show();
   leds[61] = CRGB::White; FastLED.show();
 
-  
   leds[64] = CRGB::White; FastLED.show();
   leds[65] = CRGB::White; FastLED.show();
-
-  
   leds[67] = CRGB::White; FastLED.show();
+  
   leds[68] = CRGB::White; FastLED.show();
   leds[69] = CRGB::White; FastLED.show();
+  leds[70] = CRGB::White; FastLED.show();
 }
 
 void ZEHN_M() // for minutes
 {
-  leds[71] = CRGB::White; FastLED.show();
-  leds[72] = CRGB::White; FastLED.show();
   leds[73] = CRGB::White; FastLED.show();
-
+  leds[74] = CRGB::White; FastLED.show();
   leds[75] = CRGB::White; FastLED.show();
-  leds[76] = CRGB::White; FastLED.show();
+
   leds[77] = CRGB::White; FastLED.show();
+  leds[78] = CRGB::White; FastLED.show();
+  leds[79] = CRGB::White; FastLED.show();
 
 
   leds[80] = CRGB::White; FastLED.show();
   leds[81] = CRGB::White; FastLED.show();
+  leds[82] = CRGB::White; FastLED.show();
 
   leds[84] = CRGB::White; FastLED.show();
   leds[85] = CRGB::White; FastLED.show();
